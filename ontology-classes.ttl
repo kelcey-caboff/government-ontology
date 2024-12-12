@@ -1,0 +1,151 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+@prefix gov: <http://data.cabinetoffice.gov.uk/> .
+
+# ====== DATA TYPES ======
+gov:officialLabel a owl:DatatypeProperty ;
+    rdfs:subPropertyOf rdfs:label ;
+    rdfs:domain gov:Role , gov:Organisation ;
+    rdfs:range xsd:string .
+
+gov:unofficialLabel a owl:DatatypeProperty ;
+    rdfs:subPropertyOf rdfs:label ;
+    rdfs:domain gov:Role , gov:Organisation ;
+    rdfs:range xsd:string .
+
+gov:acronym a owl:DatatypeProperty ;
+    rdfs:subPropertyOf rdfs:label ;
+    rdfs:domain gov:Role , gov:Organisation ;
+    rdfs:range xsd:string .
+
+# ====== CLASSES ======
+
+gov:Thing a owl:Class ;
+    rdfs:label "Thing"@en ;
+    rdfs:comment "Any idea, material thing, or event within the realm of human experience."@en .
+
+# ====== ROLES ======
+gov:Role rdfs:subClassOf gov:Thing ;
+    rdfs:label "Role"@en ;
+    rdfs:comment "A job or responsibility which can be inhabited by a Person."@en .
+
+# === Political Roles, i.e. Ministers ===
+gov:Minister rdfs:subClassOf gov:Role ;
+    rdfs:label "Minister"@en ;
+    rdfs:comment "A person (usually a member of Parliament) who is responsible for some government function."@en .
+
+gov:PrimeMinister rdfs:subClassOf gov:Minister ;
+    rdfs:label "Prime Minister"@en ;
+    gov:officialLabel "First Lord of the Treasury"@en ;
+    gov:acronym "PM" .
+
+gov:SecretaryOfState rdfs:subClassOf gov:Minister ;
+    rdfs:label "Secretary of State"@en ;
+    gov:officialLabel "Secretary of State"@en ;
+    rdfs:comment """His Majesty's principal secretaries of state, or secretaries of state, are senior
+        ministers of the Crown in the Government of the United Kingdom. Secretaries of state
+        head most major government departments and make up the majority of the Cabinet of the
+        United Kingdom."""@en .
+
+gov:MinisterOfState rdfs:subClassOf gov:Minister ;
+    rdfs:label "Minister of State"@en ;
+    gov:officialLabel "Minister of State"@en ;
+    rdfs:comment """A Minister of State is a member of His Majesty's Government, junior only to
+        a Secretary of State but senior to a Parliamentary Under-Secretary of State and
+        Parliamentary Private Secretaries (PPSs). Ministers of State are responsible to
+        their Secretaries of State."""@en .
+
+gov:ParliamentaryUnderSecretary rdfs:subClassOf gov:Minister ;
+    rdfs:label "Parliamentary under-secretary of State" ;
+    gov:officialLabel "Parliamentary under-secretary of State"@en ;
+    rdfs:comment  """The parliamentary under-secretary of state (or just parliamentary secretary, 
+        particularly in departments not led by a Secretary of State) is the lowest of three
+        tiers of government minister in the UK government, immediately junior to a Minister of State, 
+        which is itself junior to a Secretary of State.
+        """@en .
+
+gov:ParliamentarySecretary rdfs:subClassOf gov:Minister ;
+    gov:officialLabel "Parliamentary Secretary"@en ;
+    rdfs:label "Parliamentary Secretary"@en ;
+    rdfs:comment """Equivalent but not identical to a gov:ParliamentaryUnderSecretary"""@en .
+
+gov:ParliamentaryPrivateSecretary rdfs:subClassOf gov:Role ;
+    rdfs:label "Parliamentary Private Secretary"@en ;
+    gov:officialLabel "Parliamentary Private Secretary"@en ;
+    rdfs:comment """Not a government role, but they assist ministers in Parliament."""@en .
+
+# === Administrative and Advisory Roles ===
+gov:CivilServant rdfs:subClassOf gov:Role ;
+    rdfs:label "Civil servant"@en ;
+    gov:officialLabel "Civil servant"@en ;
+    rdfs:comment """A servant of the Crown working in a civil capacity who is not the holder
+        of a political (or judicial) office; the holder of certain other offices in respect of
+        whose tenure of office special provision has been made; [or] a servant of the Crown in a
+        personal capacity paid from the Civil List"""@en .
+
+gov:SpecialAdvisor rdfs:subClassOf gov:Role ;
+    rdfs:label "Special Advisor"@en ;
+    gov:officialLabel "Special Advisor"@en ;
+    gov:unofficialLabel "SpAd"@en ;
+    rdfs:comment  """A special adviser, also known as a spad, is a temporary civil servant who advises 
+        and assists UK government ministers[4] or ministers in the Scottish and Welsh devolved governments.
+        They differ from impartial civil servants in that they are political appointees."""@en .
+
+gov:PermanentSecretary rdfs:subClassOf gov:CivilServant ;
+    rdfs:label "Permanent secretary" ;
+    gov:officialLabel "Permanent under-secretary of state"@en ;
+    gov:unofficialLabel "Perm Sec"@en ;
+    rdfs:comment """The most senior civil servant of a ministry,
+        charged with running the department on a day-to-day basis."""@en .
+
+gov:CabinetSecretary rdfs:subClassOf gov:PermanentSecretary ;
+    rdfs:label "Cabinet secretary"@en ;
+    gov:officialLabel "Cabinet secretary"@en ;
+    gov:unofficialLabel "Cab Sec"@en ;
+    rdfs:comment "The most senior civil servant who acts as the senior policy advisor to the Prime Minister."@en .
+
+gov:SecondPermanentSecretary rdfs:subClassOf gov:CivilServant .
+
+gov:DirectorGeneral rdfs:subClassOf gov:CivilServant .
+
+gov:Director rdfs:subClassOf gov:CivilServant .
+
+gov:DeputyDirector rdfs:subClassOf gov:CivilServant .
+
+# === Organisations ===
+gov:Organisation rdfs:subClassOf gov:Thing .
+
+gov:PublicBody rdfs:subClassOf gov:Organisation .
+
+# List "maintained by the Cabinet Office" apparently: https://www.gov.uk/government/organisations
+
+# Executive office - ex: Prime Minister's Office, 10 Downing Street
+gov:Department rdfs:subClassOf gov:Organisation .
+gov:ExecutiveOffice rdfs:subClassOf gov:Department .
+# Ministerial department - ex: Department for Education
+gov:MinisterialDepartment rdfs:subClassOf gov:Department .
+# Non-ministerial department - ex: Competition and Markets Authority
+gov:NonMinisterialDepartment rdfs:subClassOf gov:Department .
+
+gov:ArmsLengthBody rdfs:subClassOf gov:PublicBody .
+# Executive agency - ex: Companies House
+gov:ExecutiveAgency rdfs:subClassOf gov:ArmsLengthBody .
+gov:NonDepartmentalPublicBody rdfs:subClassOf gov:ArmsLengthBody .
+# Executive non-departmental public body - ex: UKRI
+gov:ExecutiveNonDepartmentalPublicBody rdfs:subClassOf gov:NonDepartmentalPublicBody .
+# Advisory non-departmental public body - ex: Committee on Standards in Public Life
+gov:AdvisoryNonDepartmentalPublicBody rdfs:subClassOf gov:NonDepartmentalPublicBody .
+# Ad-hoc advisory group - ex: The Queen Elizabeth Memorial Committee
+# Tribunal - ex: Competition Appeal Tribunal
+# Public corporation - ex: BBC, Royal Parks
+gov:PublicCorporation rdfs:subClassOf gov:PublicBody .
+# Special health authority - ex: NHS Blood and Transplant
+# Devolved administrations - ex: Welsh Government
+
+# NB: this list doesn't include "SIS", "GCHQ", "Crown Estate", "Royal Mint"
